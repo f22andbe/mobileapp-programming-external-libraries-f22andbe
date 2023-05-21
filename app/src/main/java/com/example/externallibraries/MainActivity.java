@@ -1,4 +1,4 @@
-package com.example.networking;
+package com.example.externallibraries;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,18 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
+
 import java.lang.reflect.Type;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 @SuppressWarnings("FieldCanBeLocal")
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
 
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=brom";
-    //private final String JSON_FILE = "mountains.json";
-    private String mountainsJSON;
+
     private ArrayList<Mountain> mountainArrayList;
     private Gson gson;
     RecyclerView recyclerView;
@@ -35,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mountainArrayList = new ArrayList<Mountain>();
+        mountainArrayList = new ArrayList<>();
 
         /* Read in recyclerview */
         recyclerView = findViewById(R.id.recyclerView);
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         /* setup JSON parser */
         gson = new Gson();
-        type = new TypeToken<ArrayList<Mountain>>() {}.getType();
+        type = new TypeToken<ArrayList<Mountain>>(){}.getType();
 
     }
 
@@ -58,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         /* parse json into Mountain objects */
         //mountainArrayList.clear();
         mountainArrayList.addAll(gson.fromJson(json, type));
-        //Log.d("onPostExecute(): ", mountainArrayList.toString());
         mAdapter.notifyDataSetChanged();
     }
 
@@ -76,9 +73,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         /* start JsonTask and fetch data */
         if (id == R.id.action_get_data) {
-            Log.d("onOptionItemSelected","Get JSON data from web");
-            /* get JSON data from webservice */
 
+            /* get JSON data from webservice */
             new JsonTask(this).execute(JSON_URL);
             return true;
         }
