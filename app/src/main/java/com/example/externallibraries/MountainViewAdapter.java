@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -67,6 +68,8 @@ public class MountainViewAdapter extends RecyclerView.Adapter<MountainViewAdapte
     private void loadImage(String url, ImageView imageView){
         // Set RequestOptions for Glide
         RequestOptions requestOptions = new RequestOptions().error(R.drawable.error_image) //if image can't be loaded from url show error_image instead
+                                                            .fitCenter() //scale image down to size of imageview
+                                                            .transform(new RoundedCorners(16)) //give image rounded corners
                                                             .diskCacheStrategy(DiskCacheStrategy.ALL); // Cache both original and resized image
         // Load the image with Glide
         Glide.with(context)                //context of the MainActivity
