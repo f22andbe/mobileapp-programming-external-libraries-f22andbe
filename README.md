@@ -3,9 +3,10 @@
 
 **External libraries**
 
-Jag har löst denna upp genom att utöka programmet jag skrev för att lösa uppgift fem. Precis som det programmet gjorde så hämtar detta program JSON-data om berg ifrån en webbtjänst. Till skillnad från den gamla versionen så läser denna även fältet img i objektet aux, och använder biblioteket Glider för att hämta motsvarande bild. För att hämta data så väljer man menyalternativet "Get data", för att ta bort laddad data väljer man "Clear data".
+Jag har löst denna upp genom att utöka programmet jag skrev för att lösa uppgift fem. Precis som det programmet gjorde så hämtar detta program JSON-data om berg ifrån en webbtjänst. Till skillnad från den gamla versionen så läser denna även fältet img i objektet aux, och använder biblioteket Glider för att hämta motsvarande bild. För att hämta data så väljer man menyalternativet "Get data", för att ta bort laddad data väljer man "Clear data". Väljer man About.. så startas en ny aktivitet som visar en ImageView och en TextView med information om programmet.
 
-![](base_ui.png)
+-----
+![](base_ui.png) ![](about.png)
 
 För att få tillgång till Glider-biblioteket behövdes följande tillägg göras till app/build.gradle
 
