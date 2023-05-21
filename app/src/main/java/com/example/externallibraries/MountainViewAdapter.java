@@ -1,24 +1,39 @@
 package com.example.externallibraries;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 
 public class MountainViewAdapter extends RecyclerView.Adapter<MountainViewAdapter.MountainViewHolder> {
 
     Context context;
-    ArrayList<Mountain> mountainArrayList;
+    List<Mountain> mountainList;
 
-    public MountainViewAdapter(Context context, ArrayList<Mountain> mountainArrayList) {
+    public MountainViewAdapter(Context context, List<Mountain> mountainList) {
         this.context = context;
-        this.mountainArrayList = mountainArrayList;
+        this.mountainList = mountainList;
     }
 
     @Override
@@ -31,10 +46,15 @@ public class MountainViewAdapter extends RecyclerView.Adapter<MountainViewAdapte
 
     @Override
     public void onBindViewHolder(MountainViewHolder holder, int position) {
-        holder.mountainName.setText("Name: " + mountainArrayList.get(position).getName());
-        holder.mountainLocation.setText("Location: " + mountainArrayList.get(position).getLocation());
-        holder.mountainHeight.setText("Height: " + mountainArrayList.get(position).getHeight() );
-        holder.mountainWiki.setText("Wiki: " + mountainArrayList.get(position).auxdata.getWiki());
+        String imageUrl = mountainList.get(position).auxdata.getImg();
+        holder.mountainName.setText("Name: " + mountainList.get(position).getName());
+        holder.mountainLocation.setText("Location: " + mountainList.get(position).getLocation());
+        holder.mountainHeight.setText("Height: " + mountainList.get(position).getHeight() );
+        holder.mountainWiki.setText("Wiki: " + mountainList.get(position).auxdata.getWiki());
+
+        if( ! imageUrl.isEmpty()){
+            loadImage(imageUrl, holder.mountainImage);
+        }
 
         if((position % 2) == 0) {
             holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.lightgrey));
@@ -44,8 +64,19 @@ public class MountainViewAdapter extends RecyclerView.Adapter<MountainViewAdapte
 
     }
 
+    private void loadImage(String url, ImageView imageView){
+        // Set RequestOptions for Glide
+        RequestOptions requestOptions = new RequestOptions().error(R.drawable.error_image) //if image can't be loaded from url show error_image instead
+                                                            .diskCacheStrategy(DiskCacheStrategy.ALL); // Cache both original and resized image
+        // Load the image with Glide
+        Glide.with(context)                //context of the MainActivity
+                    .load(url)
+                    .apply(requestOptions) //apply specified options to this request
+                    .into(imageView);      //this is the imageView the image should be shown in
+    }
+
     public int getItemCount() {
-        return mountainArrayList.size();
+        return mountainList.size();
     }
 
     public static class MountainViewHolder extends RecyclerView.ViewHolder {
@@ -54,6 +85,8 @@ public class MountainViewAdapter extends RecyclerView.Adapter<MountainViewAdapte
         TextView mountainLocation;
         TextView mountainHeight;
         TextView mountainWiki;
+        ImageView mountainImage; // we now also have an ImageView in the ViewHolder
+
 
         public MountainViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +94,7 @@ public class MountainViewAdapter extends RecyclerView.Adapter<MountainViewAdapte
             mountainLocation = itemView.findViewById(R.id.mountainlocation);
             mountainHeight = itemView.findViewById(R.id.mountainheight);
             mountainWiki = itemView.findViewById(R.id.mountainwiki);
+            mountainImage = itemView.findViewById(R.id.mountainimage); //here we get a reference to it
         }
     }
 
