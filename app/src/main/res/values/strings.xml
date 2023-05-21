@@ -2,4 +2,5 @@
     <string name="app_name">External libraries</string>
     <string name ="fetch_web_data">Get data</string>
     <string name="clear_data">Clear data</string>
+    <string name="about_string">This program presents information about mountains that it gets from a webservice\n\n\nVersion 0.01\n\n\nAuthor: f22andbe</string>
 </resources>
