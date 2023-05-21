@@ -1,5 +1,6 @@
 package com.example.externallibraries;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -86,6 +87,10 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             mountainArrayList.clear();
             mAdapter.notifyDataSetChanged();
             return true;
+        }
+        /* start about activity */
+        if(id == R.id.about_screen) {
+            startActivity(new Intent(this, AboutActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
